@@ -1,27 +1,3 @@
-🔸 磁盘空间
-	df -h 查看磁盘各分区大小、已用空间等信息：
-	du -sh *    当前文件夹下大小...
-
-
-
-
-
-
-⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛⬛️⬛️
-🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵 SSH  🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
-⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
-🔸 配置文件 
-	一个是 /etc/ssh/ssh_config     本机连接其他服务器的设置.
-	一个是 /etc/ssh/sshd_config     其他服务器连接本机的设置.
-
-
-
-
-
-
-
-
-
 ⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛⬛️⬛️
 🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵   CentOS 7 防火墙  🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
 ⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
@@ -43,92 +19,6 @@
 
 
 
-
-
-🔸 查看防火墙		iptables -L
-
-
-🔸 防火墙状态  systemctl status firewalld
-
-🔸 停止防火墙  systemctl stop firewalld.service
-🔸 停止防火墙  systemctl disable firewalld
-🔸 禁开机启动  sudo systemctl disable firewalld.service
-
-🔸 启动防火墙  systemctl start  firewalld
-🔸 禁用防火墙  systemctl stop firewalld
-
-
-永久的开放需要的端口
-
-sudo firewall-cmd --zone=public --add-port=3000/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=60002/udp --permanent
-
-sudo firewall-cmd --reload
-
-
-
-//临时关闭防火墙,重启后会重新自动打开
-systemctl restart firewalld
-//检查防火墙状态
-firewall-cmd --state
-firewall-cmd --list-all
-//Disable firewall
-systemctl disable firewalld
-systemctl stop firewalld
-systemctl status firewalld
-//Enable firewall
-systemctl enable firewalld
-systemctl start firewalld
-systemctl status firewalld
-
-
-
-
-之后检查新的防火墙规则
-
-firewall-cmd --list-all
-
-
-
-
-
-
-# 清除已有iptables规则
-iptables -F
-# 允许本地回环接口(即运行本机访问本机)
-iptables -A INPUT -i lo -j ACCEPT
-# 允许已建立的或相关连的通行
-iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-#允许所有本机向外的访问
-iptables -A OUTPUT -j ACCEPT
-# 允许访问22222(SSH)端口，以下几条相同，分别是22222,80,443端口的访问
-iptables -A INPUT -p tcp --dport 22222 -j ACCEPT
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-
-
-
-🔸 禁止
-iptables -A INPUT -p tcp --dport 25 -j DROP
-
-
-
-#如果有其他端口的话，规则也类似，稍微修改上述语句就行
-#允许ping
-iptables -A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
-#禁止其他未允许的规则访问（注意：如果22端口未加入允许规则，SSH链接会直接断开。）
-iptables -A INPUT -j REJECT 
-iptables -A FORWARD -j REJECT
-#保存防火墙规则
-service iptables save
-#设置防火墙开机启动
-chkconfig --level 345 iptables on
-
-
-
-
-
 防火墙 FireWall iptable 
     Ubuntu 默认关闭防火墙. 
     iptables: 系统自带防火墙(复杂 难上手).
@@ -136,30 +26,6 @@ chkconfig --level 345 iptables on
 
     安装 UFW :    sudo apt-get install ufw 
     启用防火墙:　　sudo ufw enable 
-
-    service iptables status              查看iptables状态
-    service iptables restart iptables  服务重启
-    service iptables stop iptables     服务禁用
-
-    查看filter表：iptables -L
-    清空filter表：iptables -F
-
-    启动iptables: /etc/rc.d/init.d/iptables start
-    关闭iptables:/etc/rc.d/init.d/iptables stop
-
-    /etc/sysconfig/iptables
-
-    iptables：应用防火墙规则：iptables-restore: line 17 failed
-
-    /etc/init.d/iptables stop关闭
-    /etc/init.d/iptables start启动
-    /etc/init.d/iptables restart重启
-
-
-
-
-
-
 
 
 
@@ -243,45 +109,7 @@ chkconfig --level 345 iptables on
 			chattr +a /var/log/messages，
 			让系统日志只能增加数据，而不能删除也不能修改数据。
 
-        
-
-
-
-
-
-
-🔸 复制 
-    复制文件     cp filepatha filepathb
-    复制目录     cp -R /home/xxx /home    复制 非隐藏文件 到/home下
-    复制所有文件 cp -R /home/xxx/. /home  复制 所有文件   到/home下
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -336,22 +164,6 @@ chkconfig --level 345 iptables on
 
 
 Redirecting to /bin/systemctl status  puppetserver.service
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -439,14 +251,6 @@ Redirecting to /bin/systemctl status  puppetserver.service
 
 		4、导出數據库為dbname某张表(test)结构及表數據（不加-d）
 		mysqldump -uroot -pdbpasswd dbname test>db.sql;
-
-
-
-
-
-
-
-
 
 
 
@@ -1287,4 +1091,5 @@ gpasswd -d test test2  //将用户test从test2组中移出
 
     反正只要 FQDN 能解析到GCE的IP就可以了.
     我们直接修改客户端的hosts文件. 就可以了.
+
 
