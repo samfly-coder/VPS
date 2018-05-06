@@ -17,46 +17,6 @@
 
 
 
-🔵 储备知识 rpm
-    RPM软件包的管理工具.最初是 red hat用来管理linux软件程序的,由于非常好用,被centos等系统采用了.
-    🔸语法: rpm  ✚ 选项  ✚ 软件名.
-    🔸选项:
-        -i  显示套件的相关信息； 
-        -v  显示指令执行过程； 
-        -h  套件安装时列出标记； 
-        -q  使用询问模式，当遇到任何问题时，rpm指令会先询问用户；
-        -l  显示套件的文件列表；
-
-    🔸常用选项组合
-        rpm -ivh       安装软件
-        rpm -ql        查看软件安装位置.
-        rpm --force -i ❗️❗️❗️❗️强制安装❗️❗️❗️❗️
-                正常一般添加对应源之后就可以用 yum 来安装对应的软件了.
-                但是如果 rpm -ivh 安装过程报错. 就可以用强制安装!!!
-                rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
-                    👹 package puppetlabs-release-22.0-2.noarch is already installed
-
-                rpm --force -i http://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm
-                这下就好了!!!  
-
-
-
-
-
-
-
-
-
-
-
-
-@: 1986-11-01-Shell Center
----
-layout: post
-title: “Shell Center”
-tags: CLI
-categories: Tooles
----
 
 
 sudoers: |作用|命令|注释|
@@ -570,10 +530,6 @@ echo off    // 关闭命令回显
 
 
 
-
-
-
-
 诊断乱码:
 echo $LANG   显示目前支持的 语言.   zh_CN.UTF-8 
 LANG=en_US  修改成英文的. (临时的 重新登录就变回去了)
@@ -608,16 +564,6 @@ example 例子.
 调整显示参数(显示顺序 格式)
 .   date +%Y/%m/%d-%H:%M 
 
- 
-
-
-
-
-
-
-
-
-
 
 
 
@@ -632,18 +578,6 @@ cat /dev/null > doc.txt 
 //清空文件doc.txt，/dev/null代表空设备文件（记住使用即可）
 cat << doc1.txt >> doc2.txt  
 //将doc1.txt中的内容保存在doc2.txt的尾部
-
-
--
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1974,21 +1908,6 @@ SNMP的基本思想：为不同种类/型号/厂家的设备，一个统一的�
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 DNS
 数字IP . 和 英文网址之间的 自动转换.
 
@@ -2464,6 +2383,3 @@ CCIE 证书
 		那么就自己动手丰衣足食。把你的脚本单独存进一个文件例如叫/home/boot.sh 。
 			在rc.loacl 里这样写一行/bin/bash  /home/boot.sh  1>> /etc/mylog    2>&1
 			开机启动脚本要放到 home 目录下. 如果你放到 root 目录下. rc.local没权限看root目录的
-
-
-

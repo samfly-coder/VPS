@@ -1,3 +1,15 @@
+🔵 配置文件 nginx 
+
+🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶
+🔶  配置 HTTPS !!!!
+
+域名解析    ss.0214.help ➜ 98.142.138.81
+
+
+
+🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶
+
+
 🔶 简介
 
 架构： 
@@ -14,7 +26,6 @@ GCE  前端＋后端（节点3）＋数据库
     23.105.192.96   443
     加密：  chacha20 
     密码 UUrtCi
-
 
 
 🔶 其他 
@@ -44,201 +55,6 @@ GCE  前端＋后端（节点3）＋数据库
 ❗️❗️ centos6 我安装好了. centos7 丫的花了我5天 还没搞定. 浪费生命. 
 ❗️❗️ 最终我选择了一个第三方的ss-panel. https://github.com/mmmwhy/ss-panel
 ❗️❗️ 本文的教程 是基于上面第三方的. 而不是官方的ss-panel
-
-
-
-
-
-🔸 域名常识
-
-    一个域名绑定一个公网IP;
-    一个域名对应一个服务器(一般情况);
-    一个域名不等于一个网站, 
-    购买来的域名是 0214.live 是没有前缀的.也就是说你可以自定义前缀.
-    www.0214.live、ss.0214.live、blog.0214.live ......
-
-    最常用的就是 www.0214.live 这个带www前缀的.
-    任何其他前缀就叫二级域名.
-    www.0214.live 可以对应一个网站
-    xxx.0214.live 也可以对应一个网站.
-    要实现上面的功能就涉及到服务器的nginx配置了.
-
-
-🔸 Nginx常识 (centos7)
-
-    一个网站 在服务器上叫虚拟主机.
-    一个服务器可以有多个虚拟主机. 你可以新增/删除/显示...
-    虚拟主机的名字可以任意取,但是一般直接把 域名的网址 设置成虚拟主机的名字.
-    每个虚拟主机都有自己的配置文件
-
-      如 www.0214.live 对应一个叫 www.0214.live 的虚拟主机名. 
-      配置文件就是   /usr/local/nginx/conf/vhost/www.0214.live.conf
-
-      如 ss.0214.live 对应一个叫 ss.0214.live 的虚拟主机名. 
-      配置文件就是   /usr/local/nginx/conf/vhost/ss.0214.live.conf
-
-      如 blog.0214.live 对应一个叫 blog.0214.live 的虚拟主机名. 
-      配置文件就是   /usr/local/nginx/conf/vhost/blog.0214.live.conf
-
-
-    ❗️ nginix 有个默认的 nginx配置文件 /usr/local/nginx/conf/nginx.conf 
-    ❗️ nginix 有个默认的 nginx配置文件 /usr/local/nginx/conf/nginx.conf 
-          这个配置文件的最后一行是 include vhost/*.conf;
-          会自动加载 /usr/local/nginx/conf/vhost/下面所有以.conf后缀的文件.
-          vhost 文件夹里是所有的虚拟主机配置:www.0214.live.conf...
-          也就是Nginx默认加载所有虚拟主机配置的.
-
-    ❗️不要修改 nginx 默认的配置文件. 尽量修改每个虚拟主机单独的nginx配置文件.
-    ❗️不要修改 nginx 默认的配置文件. 尽量修改每个虚拟主机单独的nginx配置文件.
-
-
-
-🔸 Nginx.conf 默认配置文件详解.
-    任何软件的配置文件 一般都是分成好几个模块的. 每个模块负责某个功能
-
-    ⦿ nginx.conf 三大模块： 
-       • events {...}  ➜ 不管
-       • http   {...}  ➜ 不管
-       • server {...}  ➜ 最重要
-
-
-
-        main      (全局设置)
-        events    (nginx工作模式)
-        http      (http设置) 
-        sever     (主机设置) ❗️❗️❗️ 
-        location  (URL匹配)
-        upstream  (负载均衡服务器设置)
-
-
-🔸 Server {} 大模块详解
-    这个大模块有很多小模块组成. 最重要的是
-    其实每个虚拟主机的配置文件都是一个 server{}模块.
-    然后把所有的虚拟主机配置文件都 导入到默认配置文件中.
-    其实最终的 默认配置文件 就是 导入了很多 server{}模块而已.
-
-    • listen
-    • server_name
-    • root
-    • location
-
-
-    ⦿ listen: 80; 
-        监听端口. 一般都是80. 不用改
-          http://www.0214.live == http://www.0214.live:80
-          https://www.0214.live == https://www.0214.live:443
-
-          http://ss.0214.live == http://ss.0214.live:80
-          https://ss.0214.live == https://ss.0214.live:443
-
-
-    ⦿ server_name ❗️ 域名 ❗️
-        用户不管是通过单击链接 或者输入网址 来访问你的网站.重点就在这个 URL 网址
-        用户先要访问不同的内容 就得点击不同的网址. 
-
-        不管用户点击的是什么网站. 只要是发给你的服务器的. 那么首先 Nginx 会第一个出来干活.
-        如果用户要访问 www.0214.live 那么Nginx 就去找 www.0214.live 这个虚拟主机的配置文件.
-        按照里面的配置, 找到 www.0214.live 的默认首页 index.php 的路径. 
-        如果用户要访问 ss.0214.live 那么Nginx 就去找 ss.0214.live 这个虚拟主机的配置文件.
-        按照里面的配置, 找到 ss.0214.live 的默认首页 index.php 的路径. 
-
-        这样就达到了用户访问不同网站 显示不同网页内容的功能.
-        server_name 就是对应 用户网址的.
-
-        所以 www.0214.live 虚拟主机配置文件(/usr/local/nginx/conf/vhost/www.0214.live.conf)
-        里的 server_name 就应该是
-        server_name www.0214.live;
-        这样不管是 www.0214.live/xx.html、www.0214.live/xx2.html..
-        只要是www.0214.live 开头的网址 都交给 www.0214.live 这个虚拟主机处理.
-
-
-
-    ⦿ root  ❗️ 文件的存放路径❗️
-        每个虚拟主机是一个网站. 网站是有很多很多文件组成的. 是一个项目!
-        项目就有个项目路径. root 就是设置给每个虚拟主机设置路径的.
-        这个就叫 虚拟主机的根目录.  不是网站的默认根目录.
-        你创建一个叫 xx.0214.live 的虚拟主机. 就会在/home/wwwroot/ 下自动创建一个叫 xx.0214.live 的文件夹.
-        这个xx.0214.live 文件夹就是这个xx.0214.live虚拟主机的默认根目录. 
-        如果你在xx.0214.live 下建立一个叫 yy.html 的文件, 
-        那么你就可以用浏览器输入 xx.0214.live/yy.html 来访问这个文件.
-
-
-        但是.一个网站是由很多文件、文件夹组成的. 网站架构
-        xx.0214.live
-          -- file1
-          -- file2
-          -- Folder1
-          -- Folder2
-          -- public
-              -- index.html
-              -- robots.txt
-
-
-        为了安全(这里不展开) 
-        网站的首页(index.html/index.php) 是放在项目某个子文件夹(如 public)中的.
-        而不是放在项目根目录 ss.0214.live 文件夹下的.
-        那么现在 我们要访问网站首页 就得输入 xx.0214.live/public/index.html 来访问.
-        如果你输入 xx.0214.live 那么对不起. 网页没任何显示...
-        网站是安全了.但是用户体验很差. 用户能记住 xx.0214.live 已经很不错了.网址长了肯定记不住.
-        怎么才能 安全和用户体验兼得呢. 有办法的.
-
-
-
-
-    ⦿ location ❗️ 路由 ❗️
-
-        默认你可以用 xx.0214.live/public/index.html 来访问网站首页.
-        但是如果你想达到访问 xx.0214.live/index.html 等于访问 xx.0214.live/public/index.html
-        那么就得设置这里.
-
-        location 语法: location 参数A(字符串/正则式) 参数B(一段代码)
-        ❗️ 参数A 用来匹配用户请求网址中某个特定目录.
-        我们这里 用户请求的网址是 xx.0214.live/index.html 
-        我们要匹配/这个目录. 把/ 变成 /public/ 然后再处理. 就可以了.
-        这里的/其实是个正则式. 也就是匹配所有 xx.0214.live 开头的网址
-
-        location / { }  参数A 确定了 那么参数B该怎么写呢.
-        ❗️ 参数B 的作用就是 加载名为 try_files 的文件❗️ 
-        如果参数B里不添加任何内容.  那么默认寻找项目中的 index.html文件.
-
-          解析实例:  location / { try_files $uri $uri/ /index.html; }
-          
-          ❗️ $uri、$uri/、/index.html 是三个路径! ❗️
-          每个路径中去 找 index.html 文件.
-
-          首先查找 $uri > 找不到再找 $uri/ > 找不到再去 /index.html 
-
-
-          访问 http://carrot.is.about 和 http://carrot.is/about.html 时你会得到相同的文件
-
-          ⦿ $uri  
-          你没看错这里不是 $url 而是 $uri 
-
-    说了这么多. 还是来实践下吧. 
-
-
-
-    在实际项目中，经常会用Nginx对特定的客户端请求做改写（即rewrite）后返回或将改写后的request_url传给后端real server做业务逻辑的处理。
-
-    上面是Nginx文档对rewrite语法规则的说明，可知rewrite配置由4部分构成： 
-    1）关键字rewrite表明这是一个rewrite规则 
-    2）正则表达式regex用于筛选满足regex条件的client request uri 
-    3）replacement用于替换uri中命中regex模式的部分 
-    4）可选参数flag用于控制Nginx对满足本条rewrite规则的uri的后续处理行为
-
-
-    还可看到，rewrite配置可以位于server或location区块（一个典型的Nginx配置文件通常由http ==> server ==> location三个层级构成），还可以与if条件语法结合使用。 
-    备注：Nginx的if配置项在使用不当时会引发诡异行为（可参考nginx wiki的If Is Evil这篇文章），通常不推荐新手使用。
-
-
-    伪静态可以使URL更加简洁也利于SEO，如程序支持并且需要设置伪静态的话，如启用输入 y ，不启用输入 n 回车。
-
-
-
-
-
-
-
 
 
 🔸 废话 
@@ -384,7 +200,6 @@ GCE  前端＋后端（节点3）＋数据库
 🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵  GCE SSR 🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
 ⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
 
-
 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸 数据库 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
 🔸 准备工作: 
 
@@ -403,6 +218,8 @@ GCE  前端＋后端（节点3）＋数据库
         • 安装好Mysql数据库. 并开启远程连接功能
         • 建立数据库: ss2: utf8、utf8_bin
 
+        CREATE DATABASE ssr CHARACTER SET utf8 COLLATE utf8_bin
+
 
     ⦿ db.sql
         数据库么, 肯定有很多数据表的. 放心不用你手动建立.
@@ -411,19 +228,22 @@ GCE  前端＋后端（节点3）＋数据库
         https://raw.githubusercontent.com/mmmwhy/ss-panel/master/db.sql
         文件保存为 db.sql 到本地电脑
 
+
+    🔶 不登数据库 用 mysql 命令导入
+        mysql -uroot -p ssr2 < /home/live-app.sql
+
+
+
     ⦿ 修改: db.sql
         ss-panel 创建新用户默认使用的加密方法是在这里设置的.
         默认使用的是 rc4-md5 加密方法. 我个人是建议你用chacha20加密方法.
         如果你要更改 默认的加密方法. 最好在这里修改.
         不然等你安装好数据库. 再要修改数据表中某个字段的默认值 就要你有点mysql基础了.
         
- 
 
     ⦿ 导入数据表: db.sql
         Mac 用 navicat 软件导入就可以. 很方便的
         navicast ➜ 选择数据库 ➜  右键 execute sql file ➜ 选择db.sql ➜ start 
-
-
 
 
 
@@ -445,10 +265,6 @@ GCE  前端＋后端（节点3）＋数据库
     ================================================
 
     输入域名就好,其他全部选no
-
-
-
-
 
           - 虚拟主机设置好后
               /usr/local/nginx/conf/vhost 下就多了个❗️虚拟主机配置文件❗️
@@ -659,19 +475,17 @@ db_prefix = ''
 
 
 
-
 🔸 SS-Panel 网页后台登录帐号创建
 
     V3 版本提供了一个脚本 帮你快速建立管理员帐号.
     🔅 cd /home/wwwroot/ss.0214.live && php xcat createAdmin
-    🔅 cd /home/wwwroot/ss1.0214.help && php xcat createAdmin
+
+    🔅 cd /home/wwwroot/ss.0214.help && php xcat createAdmin
     🔅 cd /home/wwwroot/ss2.0214.help && php xcat createAdmin
 
         输入管理员邮箱、密码、按下Y 帐号就创建好了.
         然后就可以用刚建立的帐号去登录了!!!
         前端部分到这里就差不多了.
-
-
 
 
 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸 后端 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
@@ -778,6 +592,9 @@ db_prefix = ''
 🔸 SSR 安装
 
   🔅 cd ~ && git clone -b manyuser https://github.com/shadowsocksr/shadowsocksr.git
+  🔅 cd ~ && git clone -b manyuser https://github.com/Xu-Jian/shadowsocksr
+
+
       执行完毕后此目录会新建一个shadowsocksr目录，
           其中根目录的是多用户版（即数据库版），
           子目录中的是单用户版。(即shadowsocksr/shadowsocks)。
@@ -884,7 +701,6 @@ db_prefix = ''
 
             最后一个命令如果没报错那么就修改成功了!!
 
-            语法: alter table +表名+ modify column +字段名+ ... 默认值...
             现在 你再去注册 新用户 默认加密方式就是 chacha20了.
             当然 这样修改 ss-panel 的默认加密方法很麻烦. 需要你会数据库.
             其实你可以在 新建数据库的时候. 在导入 db.sql之前.把下面行改掉就可以了.
@@ -916,6 +732,7 @@ db_prefix = ''
         
     ⦿ 查看邀请码 ➜ http://ss.0214.live/code
         eifR4FJhjzwLLT9xEFTrzJq75ccTt3Df
+
 
     ⦿ 注册新用户
         退出管理员, 注册新用户,然后用新注册的用户登录.
@@ -1276,4 +1093,247 @@ InternalError: (1129, u"Host 'mail.0214.help' is blocked because of many connect
 
 直接登录数据库 执行下面命令就可以.
 flush hosts;
+
+
+
+
+
+
+
+
+⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
+🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵    NEW  🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
+⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
+
+🔵 架构
+
+    🔶 简介
+
+        两个服务器. vps1 vps2 
+        当然你只有一个服务器的话.只要按照主节点弄就可以了.
+        次节点只是为了备份. 比如主节点上不去了 可以临时用次节点.
+
+
+    🔶 VPS 1 (主节点) 
+
+        ⦿ Nginx 服务器 ➜  提供注册页面, 
+        ⦿ Mysql 数据库 ➜  储存注册用户信息, 
+        ⦿ shadowsocks-manyuser ➜ SSR 后端节点.
+
+
+    🔶 VPS 2 (次节点)
+
+        ⦿ shadowsocks-manyuser ➜ SSR 后端节点.
+
+
+    🔶 环境要求
+
+        Nginx 
+        PHP 7+
+        MariaDB 10 / mysql 5.5+
+
+
+
+🔵 容器
+
+    容器的好处非常多. 比如说LNMP 环境的容器.
+    你要在新电脑 手动安装LNMP. 没一个小时绝对不行的.
+    有了容器. 你只要把镜像下下来运行就可以了.. 非常的快速.
+
+    翻墙相关的容器也非常多. 邮箱容器包含翻墙所需的一切... 使用也简单.
+    比如这个. https://hub.docker.com/r/maxidea/ss-panel/
+    你只要运行这个容器.稍微配置下就可以了.
+
+    当然你也可以下载 容器 自己配置. 我们主要是学习知识.所以自己下载容器并配置.
+
+
+
+🔵 容器 - Nginx - 搭建注册也没用的.
+
+🔶 下载容器:  docker pull nginx
+🔶 启动容器:  docker run -dt -p 80:80 nginx bash
+🔶 进入容器:  docker exex -it <COntain ID> bash 
+
+    服务状态: service nginx status 
+    开启服务: service nginx start
+    开机自启:
+
+🔶 外网IP访问测试
+🔶 域名解析设置    ss.0214.help
+
+🔶 ss-panel 网站文件夹创建
+
+    mkdir -p /home/wwwroot/ss.0214.help && cd home/wwwroot/ss.0214.help && pwd
+
+
+🔸 下载三方 ss-panle 项目源码
+
+    cd /home/wwwroot/ss.0214.help && git clone https://github.com/mmmwhy/ss-panel.git && mv ss-panel/{.,}* ./ 
+
+        下载然后移动文件.
+          移动 ss-panel 文件夹下所有内容到 /home/wwwroot/ss.0214.help
+          确保 /home/wwwroot/ss.0214.help 下有个叫 public的文件夹.
+          也可以用 cp -R /home/wwwroot/ss.0214.live/ss-panel/. /home/wwwroot/ss.0214.live/
+
+
+🔶 新建虚拟主机配置文件
+
+    vi /etc/nginx/conf.d/ss.0214.help
+
+🔶 新建虚拟主机配置文件内容
+
+server {
+    listen        80;
+    server_name  ss.0214.help;
+    
+    location / {  
+            root   /home/wwwroot/ss.0214.help/;  
+            index  index.html index.htm;  
+        }  
+}
+
+🔶 重新加载nginx 配置     nginx -s reload
+🔶 重启Nginx    service nginx restart ... 还是无效..
+🔶 访问测试...
+
+难道文件夹权限问题....那个 ss.0214.help 文件夹 应该是 www组的...
+
+
+
+🔶 docker - ss-panel 容器
+   
+
+
+🔶 下载容器:  docker pull maxidea/ss-panel
+🔶 启动容器:  docekr run -d -P maxidea/ss-panel
+
+    KVM ~ ➜ docker ps
+    CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                                                                                                                       NAMES
+    8da5c5231eb7        mritd/shadowsocks            "/entrypoint.sh -m..."   2 days ago          Up 2 days           0.0.0.0:6443->6443/tcp, 0.0.0.0:6500->6500/udp                                                                              ssserver
+
+    启动容器后 用 docker ps 就可以查看...端口号了.
+    我们启动容器的时候没有指定端口. 所以得用 docker ps 来查看端口信息...
+    http://98.142.138.81:32772/  就可以访问 ss 控制台的 网页了.
+    要使用这个网页. 接下来我们要建立 管理员帐号
+    只能进去容器里面去建立了...
+
+🔶 进入容器:  docker exex -it <COntain ID> bash 
+
+🔶 创建 ss-panel 管理员用户.
+    cd /opt/ss-panel; php xcat createAdmin 
+...
+ mysql 没起来呀...
+ 丫的.. 内存不够 起不来.. 怎么办...
+换 mysql 5.5 把...
+
+
+
+
+
+
+
+
+
+
+🔵 DB 数据库准备
+
+docker pull mysql:5.5 
+
+
+
+
+
+🔵 主 - Nginx 
+
+
+
+
+
+
+🔵 其他启动命令....
+
+
+
+
+
+
+🔶 看日志
+
+
+docker run \
+--name my-nginx \
+-d -p 880:80 \
+-v /docker-nginx-webroot/:/usr/share/nginx/html:ro \
+-v /docker-nginx-logs:/var/log/nginx \
+-d nginx
+
+
+出来个 403..
+是因为 主机上的 目录 权限问题 . 
+那个文件夹的 所有者 必须是 www 才能. root 是不行的.
+
+
+1. 目录设置
+把主机的 webroot 目录对应到 容器的 webroot 目录.
+主机的 webroot 一般是 /home/wwwroot/default.
+容器的 webroot 一般是 /usr/share/nginx/html
+
+2. 日志文件设置
+主机的 日志文件夹随便选.
+容器的 日志文件夹是 /var/log/nginx
+
+3. 把容器内配置 拷贝到本地来.进行修改.
+docker cp nginx:/etc/nginx/nginx.conf /config/nginx.conf
+
+4. 重新指定配置文件
+docker run 
+--name my-nginx 
+-d -p 80:80 
+-v /webroot:/usr/share/nginx/html:ro 
+-v /logs:/var/log/nginx 
+-v /config/nginx.conf:/etc/nginx/nginx.conf:ro 
+-d nginx
+
+
+
+2. ro 只读模式.
+
+
+日志
+
+
+;发
+
+
+
+
+🔵 Docker - mysql 
+
+docker run \
+-d -t \
+--rm \
+--name some-app \
+-p 3306:3306 \
+mysql:5.5 \
+bash
+
+
+
+🔶 可启动. 服务不自启?
+docker run -p 3306:3306 --name mymysql 
+-v $PWD/mysql/logs:/logs 
+-v $PWD/mysql/data:/mysql_data 
+-e MYSQL_ROOT_PASSWORD=123456 
+-d mysql:latest sleep infinity
+
+
+
+🔵 设置时区???
+docker run \
+--name mysql3 \
+--rm \
+-e MYSQL_USER=rob -e MYSQL_PASSWORD=123456 -e MYSQL_DATABASE=bookshelf \
+-p 3306:3306 \
+-dt mysql:5.5 bash
+
 

@@ -31,64 +31,7 @@
 
 
 
-
-- 防火墙设置  ———————— iptables -L 
-- 所有安装软件 ——————— rpm -qa
-- CPU 信息    ————————   cat /proc/cpuinfo 
-- 主机名(改名) ——————— hostname ( sudo hostname xx )
-- 系统运行信息  ——————  uptime 
-- 活动用户    ————————    w 
-- 硬盘硬件信息  ——————  cat /proc/partitions 
-- 硬盘分区信息  ——————  fdisk -l 
-- 内存硬件信息  ——————  cat /proc/meminfo 
-- 内存信息    ————————    free -m 
-- 路由表信息   ———————   route -n  
-- 所有监听端口  ——————   netstat -lntp  
-- 查看已建立连接 —————  netstat -antp 
-- 网络统计信息  ——————  netstat -s 
-- 显示进程(静态) ——————  ps -ef  
-- 用户的信息(群组/权限) ——— id xujian 
-- 用户登录日志 ———————  last 
-- 当前用户计划任务 ———— crontab -l  
-- 所有系统服务———————   chkconfig -list  
-
-
-
-
-
-
-
-
-
-
-
-
 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
-
-
-🔸 ssh密钥 
-    ⦿ 生成(客户端)  ssh-keygen
-
-		⦿ 方法一: ssh-copy-id 命令 推荐.
-				可以把本地主机的公钥复制到远程主机的authorized_keys文件上.
-				这样可以免去 用scp上传. 然后再登录远程服务器手动修改authorized_keys
-				只需要用下面的命令 然后就可以ssh了
-				ssh-copy-id  -i id_rsa.pub -p 2222 root@104.224.139.45
-
-		⦿ 方法二: 手动传输 麻烦.
-			• 传输(客户端)  scp -P 2222 -r id_rsa.pub root@23.105.192.96:~/.ssh/
-			• 传输(客户端)  scp -P 2222 -r id_rsa.pub root@104.224.139.45:~/.ssh/
-			• 注册(服务器)  cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-
-
-
-
-
-
-
-🔸 scp 远程拷贝
-		scp local_file user@host: remote_folder
-				本地路径   ssh登录    服务器路径 
 
 
 
@@ -108,26 +51,6 @@
 		⦿ ❗️❗️ 让系统日志只能增加数据 ❗️❗️
 			chattr +a /var/log/messages，
 			让系统日志只能增加数据，而不能删除也不能修改数据。
-
-    
-
-
-
-
-
-🔸 rpm
-	rpm -ivh 加网址    默认直接用这个就好了.
-		-i:install
-		-v: 安装信息
-		-h: 安装进度.
-
-
-
-
-
-🔸 解压.
-    ⦿ .zip    unzip 文件名
-
 
 
 🔸 bash
@@ -153,61 +76,6 @@
 
 
 
-
-
-
-# systemctl start httpd.service
-# systemctl restart httpd.service
-# systemctl stop httpd.service
-# systemctl reload httpd.service
-# systemctl status httpd.service
-
-
-Redirecting to /bin/systemctl status  puppetserver.service
-
-
-
-
-
-
-
-
-
-
-
-
-🔸 HTTPS
-    • 阿里云注册 www.0214.live
-    • 下载Nginx 版本证书 (.key 和 .pem 文件)
-    • 服务器新建cert 文件夹: mkdir /usr/local/nginx/conf/cert
-    • 然后把两个证书文件 传到 cert 目录下
-    • 编辑对应的nginx 配置文件. 添加额外的server模块.
-
-    server {
-    listen 443;
-    server_name www.0214.live;
-
-    ssl on;
-    ssl_certificate cert.pem;
-    ssl_certificate_key cert.key;
-    ssl_session_timeout 5m;
-    ssl_protocols SSLv2 SSLv3 TLSv1;
-    ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
-    ssl_prefer_server_ciphers on;
-
-    }
-
-
-    • 重启 nginx
-
-
-
-
-
-
-
-
-
 🔸 Django
 
     ⦿ Django 版本查询方法一. 
@@ -225,70 +93,6 @@ Redirecting to /bin/systemctl status  puppetserver.service
 
 
 
-
-
-⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
-
-🔸 Mysql 
-
-    状态: service mysql status
-    启动: service mysql start
-    停止: service mysql stop
-    重启: service mysql restart
-
-
-🔸 数据导出
-		语法 mysqldump -u用戶名 -p密码 -d 数据库 表名 脚本名;
-
-		1、导出數據库為dbname的表结构(不含数据.只有结构)
-		mysqldump -uroot -pdbpasswd -d dbname >db.sql;
-
-		2、导出數據库為dbname某张表(test)结构(不含数据.只有结构)
-		mysqldump -uroot -pdbpasswd -d dbname test>db.sql;
-
-		3、导出數據库為dbname所有表结构及表數據（不加-d）
-		mysqldump -uroot -pdbpasswd  dbname >db.sql;
-
-		4、导出數據库為dbname某张表(test)结构及表數據（不加-d）
-		mysqldump -uroot -pdbpasswd dbname test>db.sql;
-
-
-
-
-
-🔸 Nginx
-
-    service nginx restart
-    service nginx status
-
-    cd /home/wwwroot/www.0214.live/
-
-    cd /usr/local/nginx/conf/vhost/ && ls 
-
-    vi /usr/local/nginx/conf/vhost/www.0214.live.conf
-
-
-
-🔸 Apache
-
-    service httpd status
-    service httpd stop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Linux 命令 
 
 
 
@@ -403,13 +207,6 @@ useradd  usermod  userdel  groupadd  groupmod groupdel
 	cat /etc/group          //查看所有组 	
 
 
-
-netstat    网络情况.
-	-a ：系统上所有联机状态.
-	-t ：列出 tcp 网绚封包的数据
-	-u ：列出 udp 网绚封包的数据
-	-l ：列出目前正在网络监听 (listen) 的服务；
-	-p ：列出该网绚服务的程序 PID
 
 df/fdisk 分区
 
@@ -590,6 +387,7 @@ status: inactive
 
 2. ➜  Desktop ifconfig | grep 'inet'| grep 'broadcast'
    inet 192.168.2.104 netmask 0xffffff00 broadcast 192.168.2.255
+
 现在就刷选出来 活动的网卡了.
 我们只需要ip 和 广播地址的话 就要用 awk 来筛选字段了.
 
@@ -597,14 +395,6 @@ status: inactive
 192.168.2.104 192.168.2.255
 
 
-
-
-
-
-
-
-压缩：tar -jcv -f filename.tar.bz2 要被处理的文件或目录名称  
-解压：tar -jxv -f filename.tar.bz2 -C 欲解压缩的目录  
 
 gcc  c源文件 编译成可执行的程序.
 time 执行某个目录需要花费的时间.  time ls　
@@ -650,10 +440,6 @@ who就是查看 谁登录了...
 
 
 
-重启机器    shutdown -r now 
-切换用户  exit
-更换密码 passwd 进账户 直接改密码 
-
 ip 
 查询   ip :    addr    查看ip 信息 加/删 ip :    sudo ip addr add 192.168.0.193/24 dev wlan0
 查看   ip :  ip addr  show wlan0 查看路由器   ip route show
@@ -681,8 +467,6 @@ a → all     所有用户.
 
 例子:
 chmod a+r file.
-
-
 
 
 
@@ -911,16 +695,6 @@ fdisk -l /dev/sda  查具体某块硬盘的分区信息
 
 
 硬盘使用情况(容量):     df -h
-	root@kali:~# df -hl
-	Filesystem      Size  Used Avail Use% Mounted on
-	udev             10M     0   10M   0% /dev
-	tmpfs           401M  6.2M  395M   2% /run
-	/dev/sda1        21G  8.4G   12G  43% /
-	tmpfs          1003M  324K 1003M   1% /dev/shm
-	tmpfs           5.0M     0  5.0M   0% /run/lock
-	tmpfs          1003M     0 1003M   0% /sys/fs/cgroup
-	tmpfs           201M   16K  201M   1% /run/user/133
-	tmpfs           201M   24K  201M   1% /run/user/0
 
 
 
@@ -1016,39 +790,6 @@ whereis locate  利用数据库查找  快
 
 
 
-用户操作:
-
-|作用|命令|实例|
-|:---:|:---:|:---:|
-| 创建用户 | useradd| useradd xujian  |
-| 删除账号 | userdel| userdel xujian  |
-| 删除密码 | passwd | passwd -d xujian | | 修改密码 | passwd | passwd xujian xujian     | | 修改账号 | usermod| usermod xujian -l xx0219 |
-
-- 超级用户: 能给任何人 创建/修改 任何格式的密码.   (普通用户也能用简单密码,一定要 root 账户等进去改.自己是改不了简单密码的)
-
-加入用户组
-gpasswd -a test test2   //将用户test加入到test2组
-
-离开用户组
-gpasswd -d test test2  //将用户test从test2组中移出
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 🔸 配置 FQDN
@@ -1091,5 +832,3 @@ gpasswd -d test test2  //将用户test从test2组中移出
 
     反正只要 FQDN 能解析到GCE的IP就可以了.
     我们直接修改客户端的hosts文件. 就可以了.
-
-

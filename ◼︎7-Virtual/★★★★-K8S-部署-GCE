@@ -1,3 +1,45 @@
+🔵 K8s介绍
+
+    🔶 Docker: 
+        是一个开源的引擎，
+        可以轻松的为任何应用创建一个轻量级的、可移植的、自给自足的容器
+
+    🔶 Kubernetes: 
+        是google开源的容器集群管理系统，
+        提供应用部署、维护、扩展机制等功能，
+        利用kubernetes能方便管理跨集群运行容器化的应用，
+        简称：k8s（k与s之间有8个字母）
+
+
+    🔶 Etcd: 
+        由CoreOS开发并维护的一个高可用的键值存储系统,
+        主要用于共享配置和服务发现
+
+    🔶 Flannel: 
+        Flannel是 CoreOS 团队针对 Kubernetes 设计的一个
+        覆盖网络（Overlay Network）工具，
+        其目的在于帮助每一个使用 Kuberentes 的主机拥有一个完整的子网
+
+
+
+🔵 硬件环境
+
+    虚拟机 CentOS7 ➜ k8s 主节点
+    虚拟机 CentOS7 ➜ k8s 从节点1, 从节点2
+
+    由三台服务器(CentOS 7.0)组成master集群,命名为m1，m2，m3，ip用m1 m2 m3来代替
+
+
+
+
+🔵 自动搭建...
+
+    https://segmentfault.com/a/1190000005345466
+
+
+
+
+
 🔵 参考 
 
     ★★★★★ 官方文档(EN)    https://kubernetes.io/
@@ -394,251 +436,6 @@ kubectl 用集群名字来来访问集群, 所以集群名是不能重复的.
 
 🔸 Docker 
     对最低Docker版本的要求是随着kubelet的版本变化的。最新的稳定版本通常是个好选择。
-
-
-
-
-
-
-
-
-
-
-
-
-🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸GCE CentOS_7 x64 部署 K8s 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
-
-🔸 部署简介
-    
-    通过手动配置, 你将会理解所有底层的包、服务、端口 等等.
-
-
-
-🔸 Kubeadm 
-
-    你可以一项一项安装.  也可以使用 Kubeadm 来一键部署!
-
-    kubeadm是Kubernetes官方提供的快速安装和初始化Kubernetes集群的工具
-    当然，目前的kubeadm是不能用于生产环境的。
-
-
-
-
-
-🔸 要求: 
-    两台临时 Centos vps. 
-      vps1. 35.194.247.157  ➜   ssh v@35.194.247.157  ➜ sudo su  切换到root用户 
-      vps2. 35.194.223.44   ➜   ssh v@35.194.223.44   ➜ sudo su  切换到root用户  
-
-
-
-🔸 废话
-
-    yum 可以直接安装 k8s  但是版本有点低! 1.5的 , 现在都出到 1.8 了. 所以我们手动安装! 
-
-    安装 k8s 之前你需要自己安装 Docker.  k8s 是管理容器的, 首先你得要有容器才行! 
-
-
-
-🔵 安装依赖: Docker 
-
-    ⦿ Docker 源配置
-
-      yum install -y yum-utils device-mapper-persistent-data lvm2
-
-      yum-config-manager \
-          --add-repo \
-          https://download.docker.com/linux/centos/docker-ce.repo
-
-
-    ⦿ 查看最新的Docker版本：
-        yum list docker-ce.x86_64  --showduplicates |sort -r
-          docker-ce.x86_64            17.09.0.ce-1.el7.centos             docker-ce-stable
-          ...
-
-    ⦿ 安装最新版本Docker 
-      yum makecache fast   ➜ 将服务器上的软件包信息 缓存到本地, 提高搜索/安装 软件的速度.
-      yum install docker-ce-17.09.0.ce-1.el7.centos -y
-
-      docker version  ➜ 查看安装好的Docker 版本
-
-      systemctl start docker     ➜ 启动 Docker 
-      systemctl status docker    ➜ 查看 Docker 状态
-      systemctl enable docker    ➜ 开机启动Docker 
-
-
-
-
-🔸 配置防火墙 
-      Docker从1.13版本开始调整了默认的防火墙规则，禁用了iptables filter表中FOWARD链，
-      这样会引起Kubernetes集群中跨Node的Pod无法通信，
-      在各个Docker节点执行下面的命令：来允许流量转发.
-
-      iptables -P FORWARD ACCEPT
-
-      iptables -L ➜ 查看防火墙...
-      iprables -F ➜ 清空防火墙...
-      systemctl stop firewalld  ➜ 停止防火墙
-      systemctl disable firewalld  ➜ 禁止开机自启
-
-
-🔸 关闭 Selinux 
-
-    cat /etc/sysconfig/selinux  ➜ SELINUX=disabled ➜ 就说明是关闭的.
-    如果不是disable就需要手动执行下面一步
-    vi /etc/sysconfig/selinux  ➜ 改成  SELINUX=disabled ➜  然后重启机器就可以了.
-
-
-
-
-
-
-🔵 CentOS_7 x64 k8s 源
-
-    cat <<EOF > /etc/yum.repos.d/kubernetes.repo
-    [kubernetes]
-    name=Kubernetes
-    baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-    enabled=1
-    gpgcheck=1
-    repo_gpgcheck=1
-    gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
-            https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-    EOF
-
-
-      注: 国内用不了谷歌可以用下面阿里云的!版本可能会老一点!
-        vi /etc/yum.repos.d/kubernetes.repo
-          [kubernetes]
-          name=Kubernetes
-          baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
-          enabled=1
-          gpgcheck=0
-
-
-
-    添加源之后就可以用下面命令查看k8s各核心组件的版本了,选择某个版本进行安装.
-      yum list kubeadm  --showduplicates |sort -r
-      yum list kubelet  --showduplicates |sort -r
-      yum list kubectl  --showduplicates |sort -r
-      yum list kubernets-cni  --showduplicates |sort -r
-
-
-🔸 k8s 核心组件安装
-    yum -y install kubeadm-1.8.0 kubelet-1.8.0 kubectl-1.8.0 kubernetes-cni-1.8.0
-
-    rpm -qa|grep kube  ➜ 查看安装的软件版本
-
-
-
-
-
-🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸 准备镜像 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
-
-🔸 Docker 基础
-
-    搜索镜像: docker search 不方便.
-    https://hub.docker.com/  注册后登录. 然后搜索.
-
-    这里 也是没有版本的啊!!!!!
-
-
-
-
-🔸
-
-k8s 是非常多的软件组合而成的! 
-这些软件都被制作成Docker镜像了! 
-所以这些镜像也是必须要下载的! 
-这么多镜像的软件版本也不是随便来的. 有些要和 k8s 主版本一致.
-
-
-下面四个 一般跟着大版本走. 如果k8s 的版本是1.8.0 下面的也必须对应
-gcr.io/google_containers/kube-apiserver-amd64:v1.5.2
-gcr.io/google_containers/kube-proxy-amd64:v1.5.2
-gcr.io/google_containers/kube-controller-manager-amd64:v1.5.2
-gcr.io/google_containers/kube-scheduler-amd64:v1.5.2
-
-
-下面这个是k8s 的控制台. 尽量跟着大版本, 大版本是1.8.x 这个可以安装 1.8.0
-gcr.io/google_containers/kubernetes-dashboard-amd64:v1.5.1
-
-
-下面三个是 DNS 服务, 一般不跟 k8s ! 
-# docker pull gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.1
-# docker pull gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.1
-# docker pull gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.1
-
-
-etcd 服务.不跟k8s
-# docker pull gcr.io/google_containers/etcd-amd64:3.0.17
-
-很久都是3.0了. 
-# docker pull gcr.io/google_containers/pause-amd64:3.0
-
-网络组件
-# docker pull quay.io/coreos/flannel:v0.7.1-amd64
-
-查看镜像：# docker images
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-🔸 修改网络 
-
-
-主要是开启桥接相关支持，这个是 flannel 需要的配置，具体是否需要，看自己的网络组件选择的是什么。
-
-修改/usr/lib/sysctl.d/00-system.conf,将net.bridge.bridge-nf-call-iptables改成1.之后修改当前内核状态
-
-echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
-
-
-
-
-
-🔸 启动kubelet：
-
-# systemctl enable kubelet
-# systemctl start kubelet
-
-
-
-🔸 初始化master机器：
-
-# kubeadm init \
-    --apiserver-advertise-address=172.16.20.99 \
-    --kubernetes-version=v1.6.1 \
-    --pod-network-cidr=10.244.0.0/16
-  参数解释：
- --apiserver-advertise-address # API Server（master）IP地址
- --kubernetes-version # 初始化安装的Kubernetes版本
- --pod-network-cidr # 选择flannel作为Pod的网络插件，所以指定 10.244.0.0/16
-
-
-;🔸 使用kubectl 管理命令行：
-
-为了使用kubectl访问apiserver，在~/.bash_profile中追加下面的环境变量：
-
-# echo "export KUBECONFIG=/etc/kubernetes/admin.conf" >> ~/.bash_profile
-# source ~/.bash_profile
-# kubectl get nodesNAME STATUS AGE VERSIONnode0 NotReady 3m v1.6.1
 
 
 

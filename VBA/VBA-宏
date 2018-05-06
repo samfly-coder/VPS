@@ -1,3 +1,53 @@
+🔵 需求:
+
+    用 Excel 里面的 vba 连接 oracle 数据库. 并获取数据.
+
+
+
+🔵 前提
+
+    电脑需要按 Oracle 客户端. 
+
+    然后网上找个 VBA的代码. 改下数据库连接设置 
+
+
+
+🔵 代码
+
+
+Public Const sConnect As String = "xxx??; Initial Catalog=xxx; User ID=ta;Password=ta;"
+
+Sub GetData1()
+
+Sheets(1).Range("a1:ao20000").ClearContents
+
+Dim rsConnection As ADODB.Connection
+Dim rsRecordset As ADODB.Recordset
+Dim sQuerry As String
+
+sQuerry = "select * from xxx"
+
+Set rsConnection = New ADODB.Connection
+Set rsRecordset = New ADODB.Recordset
+
+rsConnection.ConnectionString = sConnect
+rsConnection.Open
+
+Set rsRecordset = rsConnection.Execute(sQuerry)
+
+Worksheets(1).Range("A2").CopyFromRecordset rsRecordset
+
+rsConnection.Close
+
+Set rsConnection = Nothing
+Set rsRecordset = Nothing
+
+End Sub
+
+
+
+
+
 
 
 🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶
@@ -274,7 +324,8 @@ excel ➜ 视图 ➜ 宏 ➜ 录制宏... .. 编辑宏..
 Sub linkOracle()  
   
     Dim strConn As String  '连接字符串  
-      
+    ' 连接数据库 肯定需要 数据库IP 用户密码什么的.  这些信息需要报错到变量中的.
+
     Dim dbConn As Object  '连接对象  
     Dim resSet As Object  '查询结果集  
       
@@ -322,3 +373,65 @@ End Sub
 
 
 	还是
+
+
+
+
+
+
+🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶
+
+🔵 简介  
+
+定义三个变量. 
+
+🔶 引用...
+
+
+
+
+
+
+
+
+
+
+
+🔵 实例
+
+
+
+sub VBA-To-OracleDB()
+
+
+dim mtxData As Variant 
+dim cn As ADODB.Connection
+dim rs Ad ADODB.Recordset
+' 必须去引用里面 勾选 Microsoft Activex Data Objects xxx library..
+' ADODB 这个东西是 在 Microsoft Activex Data Objects xxx library 里面定义的. 
+' 当然要先引用 再使用啦. 不然会报错的!!!
+
+
+set cn = New ADODB.Connection 
+set rs = New ADODB.Recordser
+
+
+cn.open (
+"user id=ta" & 
+"; password=ta" & 
+"; data source =YNTA" & 
+"; Provider=OraOLEDB.Oracle.1"
+)
+
+
+
+
+' 运行完需要清除结果. 
+set rs = Nothing
+set cn = Nothing
+
+End Sub
+
+
+
+

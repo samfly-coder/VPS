@@ -78,4 +78,3 @@ https://github.com/zhaocai/alfred2-top-workflow (https://github.com/zhaocai/alfr
 
 
 关于 程序名字  可以自己在 mac 的应用程序文件夹 直接改你喜欢的名字 
-

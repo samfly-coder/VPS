@@ -74,6 +74,3 @@
 			nmap -sV --script=telnet-brute 192.168.137.4                                           telnet破解  
 			nmap --script http-slowloris --max-parallelism 400 192.168.137.4                       dos小规模攻击 
 			nmap --script=samba-vuln-cve-2012-1182  -p 139 192.168.137.4
-
-
-

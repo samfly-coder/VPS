@@ -49,3 +49,4 @@ NAME="$MY_DB1-$BF_TIME"
 #导出脚本 进行压缩
 $BF_CMD $MY_denglu --databases $MY_DB1 > $BF_DIR/test.sql
 
+

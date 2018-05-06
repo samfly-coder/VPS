@@ -1,135 +1,7 @@
-⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
-🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵  Linux 神器  🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
-⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
-
-
-🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸★★★★★🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
-
-❤️ tldr
-    man 替代品,man 太复杂.  懒得看.  用 tldr : too long don't read 
-    会给你该命令的用法举例!!! 一般人都能看懂的 ... 
-    ⦿ 安装 pip install tldr
-    ⦿ 使用: tldr ls、 tldr ssh、 tldr tar
-
-
-❤️ pkill 按进程的名称杀死进程！（这个工具我很惊讶！）
-    pkill -9 iPic 直接kill 这个进程, 不需要进程号码.
-
-
-
-❤️ nmap 
-
-❤️ htop   进程监控
-
-
-❤️ tree 
-
-
-❤️ mtr   网络诊断工具
-
-
-
-❤️ mycli
-    mysql 命令行客户端，支持语法高亮和命令补全,使用和mysql 命令基本一致.
-    ❗️❗️ 每输入一次命令 都要按 q 按钮来退出. ❗️❗️
-    ⦿ Mac OS 安装:  brew install mycli
-    ⦿ Centos 安装:  yum install python-devel && pip install -U mycli
-    ⦿ 使用
-      • mycli -u root -p xxxx
-      • mycli ss        直接进入ss数据库. 要输入root密码.
-      • mycli -h 104.224.139.45 -P 3306 -u root
-        Mac 如果安装了mycli 也能直接控制服务器. 不需要在服务器上安装.
-        mycli -h 104.224.139.45 -P 3306 
-
-
-
-
-
-
-
-
-
-🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸 ★★★ 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
-
-❤️ shellcheck：
-    shell脚本静态检查工具，能够识别语法错误以及不规范的写法。
-    https://github.com/koalaman/shellcheck
-
-    很多使用方法.
-    可以在网页上写脚本.然后在线检查.
-    可以在终端上检测, 还能在编辑器如 vscode  上检查.
-
-    ⦿ 网页在线检测.  http://www.shellcheck.net/
-
-    ⦿ Mac 安装  
-      • brew install shellcheck
-      • vsc 插件安装. 找 shellcheck 然后安装.
-
-
-
-
-❤️ nmon   综合监控，CPU，内存，磁盘IO，网络IO
-
-    wget http://sourceforge.net/projects/nmon/files/nmon16e_mpginc.tar.gz
-    tar -zxvf nmon16e_mpginc.tar.gz
-    cp nmon_x86_64_centos7 /usr/local/bin/nmon && rm nmon* 
-    chmod 777 /usr/local/bin/nmon
-    nmon 
-
-
-
-
-❤️ dstat  综合监控，CPU，内存，磁盘IO，网络IO
-
-❤️ iotop  硬盘IO的命令; (2.6+的内核)
-            ⦿ 安装   yum install iotop -y
-            
-❤️ iftop  网络流量 
-            iftop是类似于top的实时流量监控工具。
-            iftop可以用来监控网卡的实时流量、反向解析IP、显示端口信息等，
-
-            yum install flex byacc  libpcap ncurses ncurses-devel libpcap-devel
-            yum install iftop
-
-
-❤️ ip   ifconfig替代品. 比如 ip route list 查看当前主机路由表。
-
-
-❤️ nohup，在后台运行程序，程序不会随着shell关闭而退出。
-
-
-
-
-🔵 HTTPie
-
-    https://httpie.org/
-    安装:  brew install httpie    /    sudo yum install httpie
-
-    HTTPie则在使用时的表现力、人性化做得比wget、curl好得多，
-    就像在官网上宣传的那样，它追求的是人性化、简单自然的语法，以及彩色的输出。
-    而且HTTPie还有一些不错的优点，比如对JSON的良好支撑、持久性会话等特性。
-
+❤️ nohup，
 
 
 🔵 jq，命令行的json查询和格式化工具，适合查看rest接口的输出
-
-
-
-
-🔵 cowsay
-    https://gist.github.com/dakull/6615458
-
-    使用方法 cowsay 显示内容
-
-    cowsay helloacm
-    __________
-    < helloacm >
-    ----------
-            \   ^__^
-            \  (oo)\_______
-                (__)\       )\/\
-                    ||----w |
-                    ||     ||
 
 
 ⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️------⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️
@@ -147,26 +19,6 @@
 
 🔵 route-n查看ip与路由
 
-
-🔵 lolcat    彩色 cat 
-
-
-
-🔵 Lynx  终端浏览器.
-  http://chaishiwei.com/blog/708.html
-  brew install lynx
-
-  使用:..在公司里，别人浏览网站，都是用浏览器。
-  用法: lynx + 网址.
-
-
-
-🔵 axel 
-  各种网盘不限速下载 谁用谁知道&
-
-
-🔵 bmon 简单但非常强大的 网络监视和调试工具
-    sudo yum install bmon -y
 
 
 
@@ -207,38 +59,6 @@
 
 
 
-🔵 screenfetch
-    查看系统信息
-    ✘✘∙𝒗2 screenFetch ➜ ./screenfetch-dev
-                      ..                    root@localhost.localdomain
-                    .PLTJ.                  OS: CentOS
-                    <><><><>                 Kernel: x86_64 Linux 2.6.32-042stab123.3
-          KKSSV' 4KKK LJ KKKL.'VSSKK        Uptime: 1d 23h 20m
-          KKV' 4KKKKK LJ KKKKAL 'VKK        Packages: 530
-          V' ' 'VKKKK LJ KKKKV' ' 'V        Shell: zsh 5.0.2
-          .4MA.' 'VKK LJ KKV' '.4Mb.        CPU: Intel Xeon E3-1275 v5 @ 3.6GHz
-        . KKKKKA.' 'V LJ V' '.4KKKKK .      RAM: 340MiB / 1024MiB
-      .4D KKKKKKKA.'' LJ ''.4KKKKKKK FA.
-      <QDD ++++++++++++  ++++++++++++ GFD>
-      'VD KKKKKKKK'.. LJ ..'KKKKKKKK FV
-        ' VKKKKK'. .4 LJ K. .'KKKKKV '
-            'VK'. .4KK LJ KKA. .'KV'
-          A. . .4KKKK LJ KKKKA. . .4
-          KKA. 'KKKKK LJ KKKKK' .4KK
-          KKSSA. VKKK LJ KKKV .4SSKK
-                    <><><><>
-                    'MKKM'
-
-
-
-    安装: 
-    git clone https://github.com/KittyKatt/screenFetch.git
-    cd screenFetch
-    chmod +x screenfetch-dev
-    ./screenfetch-dev
-
-
-
 
 🔵 NetHogs
   NetHogs——Linux下按进程实时统计网络带宽利用率
@@ -253,51 +73,6 @@
   ⦿ 安装   yum install nethogs -y
     sudo nethogs
     sudo nethogs -d 5  刷新频率.
-
-
-
-
-🔵 nload
-  ❗️❗️❗️❗️ 监控主机网络流量 ❗️❗️❗️❗️
-
-  ⦿ 安装:  yum install nload -y
-
-  nload          左右方向键 可以切换网卡!!
-  nload -t 500   刷新值
-
-  nload -u b 显示单位
-  nload -u k 显示单位
-  nload -u m 显示单位
-  nload -u g 显示单位
-
-
-
-
-
-
-🔵 arpwatch
-  arp活动监视器
-  yum install arpwatch -y
-  启动  /etc/init.d/arpwatch start
-
-
-
-
-
-
-🔵 bwm-ng 实时网速查看
-  sudo yum install bwm-ng
-
-  bwm-ng v0.6.1 (probing every 0.500s), press 'h' for help
-  input: /proc/net/dev type: rate
-  |         iface                   Rx                   Tx                Total
-  ==============================================================================
-               lo:           0.20 KB/s            0.20 KB/s            0.41 KB/s
-           venet0:           0.20 KB/s            0.75 KB/s            0.95 KB/s
-  ------------------------------------------------------------------------------
-            total:           0.41 KB/s            0.95 KB/s            1.36 KB/s
-
-
 
 
 
@@ -353,6 +128,8 @@
     “swaks”这个名字是”SWiss Army Knife Smtp”的首字母缩略词.
     邮件伪造
     http://www.freebuf.com/sectool/92397.html
+
+
 
 
 
@@ -480,92 +257,10 @@
     tmux info 流出所有的 session, window, pane, 运行的进程号，等。
 
 
-
-
-
-
-
-🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
-
-
-
-
-🔵 powerline-shell
-    好看的 终端条
-    https://github.com/banga/powerline-shell
-
-
-    🔸 Mac 安装方法
-
-    任意目录下载.
-    git clone https://github.com/milkbikis/powerline-shell && cd powerline-shell
-
-    复制文件
-    cp config.py.dist config.py
-
-    运行
-    ./install.py
-
-    会生成一个 powerline-shell.py 文件. 把这个文件放到 用户根目录下去.
-
-    然后就看你是使用 bash 还是 zsh . zsh的话 把 下面内容追加到 ~/.zshrc 就可以
-    function powerline_precmd() {
-        PS1="$(~/powerline-shell.py $? --shell zsh 2> /dev/null)"
-    }
-
-    function install_powerline_precmd() {
-      for s in "${precmd_functions[@]}"; do
-        if [ "$s" = "powerline_precmd" ]; then
-          return
-        fi
-      done
-      precmd_functions+=(powerline_precmd)
-    }
-
-    if [ "$TERM" != "linux" ]; then
-        install_powerline_precmd
-    fi
-
-
-    ⦿ 重启zsh 测试
-
-
-
-
-
-
 ❤️ netstat
-    使用 netstat 去查找网络连接信息和系统开启的端口号。
-      -a (all)显示所有选项，默认不显示LISTEN相关 
-      -t (tcp)仅显示tcp相关选项 
-      -u (udp)仅显示udp相关选项 
-      -n 拒绝显示别名，能显示数字的全部转化成数字。 
-      -l 仅列出有在 Listen (监听) 的服務状态
-      -p 显示建立相关链接的程序名 
-      -r 显示路由信息，路由表 
-      -e 显示扩展信息，例如uid等 
-      -s 按各个协议进行统计 
-      -c 每隔一个固定时间，执行该netstat命令。
-        提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到
 
 
     列出所有端口 netstat -a
-
-
-    列出所有 tcp 端口 netstat -at
-
-    列出所有 udp 端口 netstat -au
-
-    2. 列出所有处于监听状态的 Sockets
-      只显示监听端口 netstat -l
-
-    只列出所有监听 tcp 端口 netstat -lt
-
-    只列出所有监听 udp 端口 netstat -lu
-
-    只列出所有监听 UNIX 端口 netstat -lx
-
-
 
     3. 显示每个协议的统计信息
       显示所有端口的统计信息 netstat -s
@@ -583,11 +278,6 @@
 
     6. 持续输出 netstat 信息
     netstat 将每隔一秒输出网络信息
-
-
-
-    8. 显示核心路由信息 netstat -r
-
 
 
     9. 找出程序运行的端口
@@ -738,107 +428,7 @@ Mosh 还有chrome 浏览器的桌面应用.
 安装后会和别的程序一样安装到 mac 的 app 里面. 
 通过这个启动的. 而不是通过chrome 浏览器启动的...
 
-
-
-
-
-
-🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
-
-❤️ Nslookup
-*查询DNS的记录，查看网络中的 DNS 服务器 的域名解析是否正常.*
-
- nslookup www.taobao.com
-Server:     172.19.16.16        // DNS 服务器.
-Address:    172.19.16.16#53
-Non-authoritative answer:
-www.taobao.com  canonical name = www.taobao.com.danuoyi.tbcache.com.
-Name:   www.taobao.com.danuoyi.tbcache.com
-Address: 124.160.132.254
-Name:   www.taobao.com.danuoyi.tbcache.com
-Address: 140.207.232.122
-
-
-
-正向解析
-
-逆向解析
-
-直接查询 返回的是 A 记录.
-
-
-A记录: (address)
-用来 指定主机名/域名 对应的 IP 地址记录.
-
-
-- A     地址记录 
-- CNAME 别名记录 
-	允许您将多个名字映射到同一台计算机。 通常用于同时提供WWW和MAIL服务的计算机。
-
-例:
-有一台计算机名为“host.mydomain.com”（A记录）。 它*同时提供 WWW 和 MAIL服务.*
-为了便于用户访问服务。*可以设置两个别名（CNAME）*：WWW 和 MAIL。 
-1. www.mydomain.com
-	2. mail.mydomain.com。
-		> 实际上他们都指向“host.mydomain.com”。
-
-
-
-
-- MX    邮件服务器记录
-
-
-
-- NS    名字服务器记录
-
-AAAA          地址记录 
-AFSDB Andrew  文件系统数据库服务器记录 
-ATMA          ATM地址记录 
-HINFO         硬件配置记录，包括CPU、操作系统信息 
-ISDN          域名对应的ISDN号码 
-MB            存放指定邮箱的服务器 
-MG            邮件组记录 
-MINFO         邮件组和邮箱的信息记录 
-MR            改名的邮箱记录 
-PTR           反向记录 
-RP            负责人记录 
-RT            路由穿透记录 
-SRV           TCP服务器信息记录 
-TXT           域名对应的文本信息 
-X25           域名对应的X.25地址记录
-
-
-
-
-1. A记录 又称IP指向，用户可以在此设置子域名并指向到自己的目标主机地址上，从而实现通过域名找到服务器。说明：·指向的目标主机地址类型只能使用IP地址；
-
-附加说明： 
-           1) 泛域名解析即将该域名所有未指定的子域名都指向一个空间。在“主机名”中填入\*，“类型”为A，“IP地址/主机名”中填入web服务器的IP地址，点击“新增”按钮即可。 
-           2) 负载均衡的实现：负载均衡(Server Load Balancing，SLB)是指在一系列资源上面动态地分布网络负载。负载均衡可以减少网络拥塞，提高整体网络性能，提高自愈性， 并确保企业关键性应用的可用性。当相同子域名有多个目标地址时，表示轮循，可以达到负载均衡的目的，但需要虚拟主机服务商支持。
-  
-
- \2. CNAME 通常称别名指向。您可以为一个主机设置别名。比如设置test.mydomain.com，用来指向一个主机www.rddns.com那么以后就可以用test.mydomain.com来代替访问www.rddns.com了。
-说明：·
-            CNAME的目标主机地址只能使用主机名，不能使用IP地址；·主机名前不能有任何其他前缀，如：http://等是不被允许的；·A记录优先于CNAME记录。即如果一个主机地址同时存在A记录和CNAME记录，则CNAME记录不生效。  
-3. MX记录 邮件交换记录。用于将以该域名为结尾的电子邮件指向对应的邮件服务器以进行处理。如：用户所用的邮件是以域名mydomain.com为结尾的，则需要在管理界面中添加该域名的MX记录来处理所有以@mydomain.com结尾的邮件。
-
-说明：·
-            MX记录可以使用主机名或IP地址；·MX记录可以通过设置优先级实现主辅服务器设置，“优先级”中的数字越小表示级别越高。也可以使用相同优先级达到负载均衡的目的；·如果在“主机名”中填入子域名则此MX记录只对该子域名生效。
-附加说明：
-         1) 负载均衡服务器负载均衡(Server Load Balancing，SLB)是指在一系列资源上面智能地分布网络负载。负载均衡可以减少网络拥塞，提高整体网络性能，提高自愈性，并确保企业关键性应用的可用性。当域名的MX记录有多个目标地址且优先级相同时，表示轮循，可以达到负载均衡的目的，但需要邮箱服务商支持。  
-4. NS记录 解析服务器记录。用来表明由哪台服务器对该域名进行解析。这里的NS记录只对子域名生效。
-   例如用户希望由12.34.56.78这台服务器解析news.mydomain.com，则需要设置news.mydomain.com的NS记录。
-   说明：·“优先级”中的数字越小表示级别越高；·“IP地址/主机名”中既可以填写IP地址，也可以填写像ns.mydomain.com这样的主机地址，但必须保证该主机地址有效。
-   如，将news.mydomain.com的NS记录指向到ns.mydomain.com，在设置NS记录的同时还需要设置ns.mydomain.com的指向，
-   否则NS记录将无法正常解析；·NS记录优先于A记录。即，如果一个主机地址同时存在NS记录和A记录，则A记录不生效。这里的NS记录只对子域名生效。 
-5. 
-   相关说明  
-   1) 负载均衡服务器负载均衡(Server Load Balancing，SLB)是指在一系列资源上面智能地分布网络负载。负载均衡可以减少网络拥塞，提高整体网络性能，提高自愈性，并确保企业关键性应用的可用性。当相同子域有多个目标地址，或域名的MX记录有多个目标地址且优先级相同时，表示轮循，可以达到负载均衡的目的，但需要虚拟主机和邮箱服务商支持。
-    2) TTL值TTL值全称是“生存时间（Time To Live)”，简单的说它表示DNS记录在DNS服务器上缓存时间。东方网景DNS服务器默认即时生效，客户的增加修改一般不超过15分钟可以使用。  
-
-
-
-
+ 
 
 🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸🔸
 
@@ -907,4 +497,3 @@ X25           域名对应的X.25地址记录
   Supervisorctl 是 supervisord 的一个命令行客户端工具，启动时需要指定与 supervisord 使用同一份配置文件，否则与 supervisord 一样按照顺序查找配置文件。
 
   supervisorctl -c /etc/supervisord.conf
-
